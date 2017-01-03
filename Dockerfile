@@ -1,10 +1,12 @@
-FROM debian:jessie
+FROM alpine:3.5
 
-RUN apt-get update \
- && apt-get install -y redsocks \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+RUN apk update && \
+    apk add redsocks bash iptables && \
+    rm -rf /var/cache/apk/*
+
+RUN addgroup -g 180 -S redsocks
+RUN adduser -u 180 -S redsocks redsocks
 
 ADD redsocks.conf /tmp/
-ADD redsocks /usr/local/bin/
-ENTRYPOINT ["/usr/local/bin/redsocks"]
+ADD run.sh /run.sh
+CMD ["/bin/bash", "/run.sh"]

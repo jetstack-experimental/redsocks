@@ -13,8 +13,9 @@ redsocks {
   type = $type;
   ip = $ip;
   port = $port;
-  local_ip = 0.0.0.0;
+  local_ip = 127.0.0.1;
   local_port = $local_port;
+  splice = false;
 }
 EOF
 ) >> /tmp/redsocks.conf
@@ -53,4 +54,4 @@ if [ ! -z "$https_proxy" ] ; then
   echo
 fi
 
-exec /usr/sbin/redsocks -c /tmp/redsocks.conf
+exec /usr/bin/redsocks -c /tmp/redsocks.conf
